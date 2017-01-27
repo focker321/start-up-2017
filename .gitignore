@@ -1,3 +1,4 @@
 .idea/
 /paititi
 workspace/sci_cfp/.idea/
+*.pyc
