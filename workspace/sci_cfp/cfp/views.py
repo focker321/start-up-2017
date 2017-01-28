@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.db import IntegrityError
-
+from django.utils import timezone
 
 def index(request):
     return render(request, 'cfp/index.html', dict())
@@ -53,7 +53,7 @@ def signup_user(request):
         email = request.POST.get('email', '').lower()
         password = request.POST.get('password', '')
         try:
-            user = User.objects.create_user(username=email, email=email, password=password, first_name=first_name)
+            user = User.objects.create_user(username=email, email=email, password=password, first_name=first_name, last_login=timezone.now())
             user.is_active = True
             user.save()
         except IntegrityError:
