@@ -1,0 +1,43 @@
+    {% extends 'cfp/base.html' %}
+    {% load staticfiles %}
+
+    {% block content %}
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                {% if type == 'signup' %}
+                <div class="page-header">
+                    <h2>Congratulations!!!</h2>
+                </div>
+                <p>
+                    Your registration was done with success!<br>
+                    Please, wait while your account is validated our team.<br>
+                    Thank you.
+                </p>
+                {% elif type == 'activation' %}
+                <div class="page-header">
+                    <h2>Confirmation</h2>
+                </div>
+                <p>
+                    User <b>{{ new_user.email }}</b> was activate successfully.
+                </p>
+                {% else %}
+                <div class="page-header">
+                    <h2>Error 404</h2>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <nav>
+                    <ul class="pager">
+                        <li class="next"><a href="/cfp">Return <span aria-hidden="true">&rarr;</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    {% endblock %}
