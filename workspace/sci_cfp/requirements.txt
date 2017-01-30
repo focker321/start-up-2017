@@ -1,0 +1,8 @@
+BeautifulSoup==3.2.1
+Django==1.5.12
+MySQL-python==1.2.5
+argparse==1.2.1
+beautifulsoup4==4.5.3
+bs4==0.0.1
+lxml==3.7.2
+wsgiref==0.1.2
