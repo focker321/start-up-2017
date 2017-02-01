@@ -1,0 +1,53 @@
+    {% extends 'cfp/base.html' %}
+    {% load staticfiles %}
+
+    {% block content %}
+      <div class="row">
+        <div class="col-md-12" align="center">
+          <img src="/static/cfp/img/{{ event.location|lower|cut:" " }}.png" style="width: 70%;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h3>{{ event.acronym }} - {{ event.title_event }}</h3>
+          <hr>
+          <h4><b>Important Dates</b></h4>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-md-6">
+              <table>
+              <tr>
+                  <td><b>Submission Deadline</b>:&nbsp;</td>
+                  <td>{{ event.submission_deadline|date:"M. d, Y" }}</td>
+              </tr>
+              <tr>
+                  <td><b>Author Notification</b>:&nbsp;</td>
+                  <td>{{ event.notification_date|date:"M. d, Y" }}</td>
+              </tr>
+              <tr>
+                  <td><b>Camera-ready</b>:&nbsp;</td>
+                  <td>{{ event.camera_ready|date:"M. d, Y" }}</td>
+              </tr>
+              </table>
+          </div>
+          <div class="col-md-6">
+              <table>
+              <tr>
+                  <td><b>Event date</b>:&nbsp;</td>
+                  <td>{{ event.start_date|date:"M. d, Y" }} - {{ event.end_date|date:"M. d, Y" }}</td>
+              </tr>
+              <tr>
+                  <td><b>Location</b>:&nbsp;</td>
+                  <td>{{ event.location }}</td>
+              </tr>
+              </table>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-12">
+              <hr>
+              <p></p>
+          </div>
+      </div>
+    {% endblock %}

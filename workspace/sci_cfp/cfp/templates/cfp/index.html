@@ -8,6 +8,8 @@
         <center><h3 class="phrase">Publish your research in a conference or journal.</h3></center>
       </div>
     </div-->
+    <br>
+    <br>
     {% endblock %}
 
     {% block content %}
@@ -28,26 +30,38 @@
         </div>
       </div-->
       <div class="row">
+        {% for event in events %}
         <div class="col-md-6">
           <div class="featured-article">
-    				<a href="#">
-    					<img src="{% static 'cfp/img/lisbon-portugal.png' %}" alt="" class="thumb">
+    				<a href="/cfp/event/{{ event.acronym|lower }}">
+    					<img src="/static/cfp/img/{{ event.location|lower|cut:" " }}.png" alt="" class="thumb">
     				</a>
     				<div class="block-title">
-              <a href="#">
-      					<h5>ACII - Advanced Computational Intelligence: An International Journal</h5>
-      					<p class="by-author"><small>Deadline: 2017-01-21</small></p>
+              <a href="/cfp/event/{{ event.acronym|lower }}">
+      					<h5>{{ event.acronym }} - {{ event.title_event }}</h5>
+      					<p class="by-author"><small>Deadline: {{ event.submission_deadline|date:"M. d, Y" }}</small></p>
               </a>
     				</div>
             <div class="block-location">
-              <a href="#">
-      				  <h1>Lisbon</h1>
+              <a href="/cfp/event/{{ event.acronym|lower }}">
+      				  <h1>{{ event.location }}</h1>
               </a>
-              <p><small>Portugal</small></p>
+              <p><small></small></p>
     				</div>
     			</div>
         </div>
-        <div class="col-md-6">
+        {% endfor %}
+        <nav>
+        <ul class="pager">
+            {% if events.has_previous %}
+            <li class="previous"><a href="?page={{ events.previous_page_number }}"><span aria-hidden="true">&larr;</span> Previous</a></li>
+            {% endif %}
+            {% if events.has_next %}
+            <li class="next"><a href="?page={{ events.next_page_number }}">Next <span aria-hidden="true">&rarr;</span></a></li>
+            {% endif %}
+        </ul>
+        </nav>
+        <!--div class="col-md-6">
           <div class="featured-article">
     				<a href="#">
     					<img src="{% static 'cfp/img/berlin-germany.png' %}" alt="" class="thumb">
@@ -145,6 +159,6 @@
               <p><small>Australia</small></p>
     				</div>
     			</div>
-        </div>
+        </div-->
       </div>
     {% endblock %}

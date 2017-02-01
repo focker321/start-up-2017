@@ -1,15 +1,31 @@
 # -*- coding: utf-8 -*-
 
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.db import IntegrityError
 from django.utils import timezone
+from cfp.models import *
 
 def index(request):
-    return render(request, 'cfp/index.html', dict())
+    events = Event.objects.all()
+    paginator = Paginator(events, 20)
+
+    try:
+        page_number = int(request.GET.get('page', '1'))
+    except ValueError:
+        page_number = 1
+
+    try:
+        events = paginator.page(page_number)
+    except (InvalidPage, EmptyPage):
+        events = paginator.page(paginator.num_pages)
+
+    return render(request, 'cfp/index.html', dict(events=events))
 
 
 @csrf_protect
@@ -63,3 +79,9 @@ def signup_user(request):
         return render(request, "cfp/confirmation.html", dict(type='signup'))
     else:
         return render(request, 'cfp/login.html', dict())
+
+
+@login_required(login_url='/cfp')
+def event(request, acronym):
+    event = Event.objects.get(acronym=acronym)
+    return render(request, 'cfp/event.html', dict(event=event))
