@@ -101,10 +101,12 @@ class Crawler():
                 event.categories = ", ".join([c for c in categories_name])
                 # event["event_url"] = self.get_prop_span(soup2.find("a", target="_newtab"), "href")
                 event.event_url = self.get_prop_span(soup2.find("a", target="_newtab"), "href")
+                event.description = self.get_prop_span(soup2.find("div", {"class": "cfp"}), "text")
+                print(event.description)
                 # events.append(event)
                 print(event.acronym)
                 #query = Event.objects(acronym=event.acronym)
-                event.save()
+                # event.save()
         # print(events)
         # with open('data.json', 'w') as fp:
         #    json.dump(events, fp, indent=4)
