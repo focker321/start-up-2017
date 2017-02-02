@@ -13,7 +13,7 @@ from cfp.models import *
 
 def index(request):
     events = Event.objects.all()
-    paginator = Paginator(events, 20)
+    paginator = Paginator(events, 10)
 
     try:
         page_number = int(request.GET.get('page', '1'))
