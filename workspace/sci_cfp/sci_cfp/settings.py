@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
+from mongoengine import connect
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -129,3 +130,12 @@ USE_TZ = True
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
+# MongoDB
+USER = 'cfpuser.dev'
+PASSWORD = 'cfpuser.dev'
+HOST = 'ds161018.mlab.com'
+PORT = '61018'
+SCHEMA = 'startup-peru'
+HOST_CONNECTION = 'mongodb://%s:%s@%s:%s/%s' % (USER, PASSWORD, HOST, PORT, SCHEMA)
+
+connect(SCHEMA, host=HOST_CONNECTION)

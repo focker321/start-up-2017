@@ -1,15 +1,21 @@
 # -*- coding: utf-8 -*-
 __author__ = 'laura'
-import peewee
-from peewee import *
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from sci_cfp import settings
+from mongoengine import *
+from cfp.models import Event
+
+# import peewee
+# from peewee import *
 from bs4 import BeautifulSoup
 import re
 import urllib2
 import datetime
 
-db = MySQLDatabase('sci_cfp_db', user='root', passwd='desarrollo')
+#db = MySQLDatabase('sci_cfp_db', user='root', passwd='desarrollo')
 
-
+"""
 class Event(Model):
     acronym = CharField(max_length=500,)
     title_event = CharField(max_length=1000,)
@@ -26,7 +32,7 @@ class Event(Model):
     class Meta:
         database = db
         db_table = "cfp_event"
-
+"""
 
 class Crawler():
     def __init__(self):
@@ -97,11 +103,8 @@ class Crawler():
                 event.event_url = self.get_prop_span(soup2.find("a", target="_newtab"), "href")
                 # events.append(event)
                 print(event.acronym)
-                query = Event.select().where(Event.acronym == event.acronym)
-                if query.exists():
-                    event.update()
-                else:
-                    event.save()
+                #query = Event.objects(acronym=event.acronym)
+                event.save()
         # print(events)
         # with open('data.json', 'w') as fp:
         #    json.dump(events, fp, indent=4)
