@@ -101,6 +101,7 @@ class Crawler():
                 event.categories = ", ".join([c for c in categories_name])
                 # event["event_url"] = self.get_prop_span(soup2.find("a", target="_newtab"), "href")
                 event.event_url = self.get_prop_span(soup2.find("a", target="_newtab"), "href")
+                event.description = self.get_prop_span(soup2.find("div", {"class": "cfp"}), "text")
                 # events.append(event)
                 print(event.acronym)
                 #query = Event.objects(acronym=event.acronym)
