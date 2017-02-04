@@ -16,7 +16,8 @@ class Event(Document):
     notification_date = DateTimeField(default=None, null=True)
     location = StringField(max_length=500, default="")
     start_date = DateTimeField(default=None, null=True)
-    categories = StringField(max_length=1000, default="")
+    categories = StringField(max_length=500, default="")
+    description = StringField(default="")
 
     #def __str__(self):
     #    return self.acronym
