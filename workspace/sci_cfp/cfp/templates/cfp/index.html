@@ -43,17 +43,17 @@
         {% for event in events %}
         <div class="col-md-6">
           <div class="featured-article">
-    				<a href="/cfp/event/{{ event.acronym }}">
-    					<img src="/static/cfp/img/{{ event.location|lower|cut:" " }}.png" alt="" class="thumb">
+    				<a href="/cfp/event/{{ event.id }}">
+    					<img src="{{ event.image }}" alt="" class="thumb">
     				</a>
     				<div class="block-title">
-              <a href="/cfp/event/{{ event.acronym }}">
+              <a href="/cfp/event/{{ event.id }}">
       					<h5>{{ event.acronym }} - {{ event.title_event }}</h5>
       					<p class="by-author"><small>Deadline: {{ event.submission_deadline|date:"M. d, Y" }}</small></p>
               </a>
     				</div>
             <div class="block-location">
-              <a href="/cfp/event/{{ event.acronym }}">
+              <a href="/cfp/event/{{ event.id }}">
       				  <h1>{{ event.location }}</h1>
               </a>
               <p><small></small></p>

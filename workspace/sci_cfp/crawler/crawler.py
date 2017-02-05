@@ -50,12 +50,25 @@ class Crawler():
                     if name_property == 'Final Version Due':
                         event.camera_ready = datetime.datetime.strptime(start_property, "%Y-%m-%dT%H:%M:%S").date() if len(start_property) > 0 else None
                     if len(description_property) > 0:
-                        event.acronym = name_property
-                        event.title_event = description_property
+                        event.id = name_property.replace(" ", "").strip().lower()
+                        event.acronym = name_property[:-5].replace("ACM", "").replace("IEEE", "").strip()
+                        event.year = int(name_property[-4:])
+                        event.title_event = description_property.split(':')[1].strip()
                         event.start_date = datetime.datetime.strptime(start_property, "%Y-%m-%dT%H:%M:%S").date() if len(start_property) > 0 else None
                         event.end_date = datetime.datetime.strptime(end_property, "%Y-%m-%dT%H:%M:%S").date() if len(start_property) > 0 else None
+
+                        if "ACM" in name_property:
+                            event.sponsored = "ACM"
+                        elif "IEEE" in name_property:
+                            event.sponsored = "IEEE"
+                        else:
+                            event.sponsored = ""
                     if len(locality_property) > 0:
                         event.location = locality_property
+                        if os.path.isfile('../cfp/static/cfp/img/'+ locality_property.replace(" ", "").lower() +'.png'):
+                            event.image = '/static/cfp/img/' + locality_property.replace(" ", "").lower() + '.png'
+                        else:
+                            event.image = '/static/cfp/img/none.png'
                     if len(type_property) > 0:
                         event.type_event = type_property
                 categories = soup2.findAll("a", href=re.compile('conference'))

@@ -6,8 +6,12 @@ from mongoengine import *
 
 
 class Event(Document):
-    acronym = StringField(max_length=200, unique=True, primary_key=True)
+    id = StringField(max_length=200, unique=True, primary_key=True)
+    acronym = StringField(max_length=200)
+    year = IntField(default="0")
     title_event = StringField(max_length=1000, default="")
+    sponsored = StringField(max_length=200, default="")
+    image = StringField(max_length=200, default="")
     submission_deadline = DateTimeField(default=None, null=True)
     event_url = StringField(max_length=1000, default="")
     end_date = DateTimeField(default=None, null=True)

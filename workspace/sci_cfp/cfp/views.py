@@ -82,6 +82,6 @@ def signup_user(request):
 
 
 @login_required(login_url='/cfp')
-def event(request, acronym):
-    event = Event.objects.get(acronym=acronym)
+def event(request, event_id):
+    event = Event.objects.get(id=event_id)
     return render(request, 'cfp/event.html', dict(event=event))
