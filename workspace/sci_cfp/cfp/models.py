@@ -23,8 +23,9 @@ class Event(Document):
     categories = StringField(max_length=500, default="")
     description = StringField(default="")
 
-    #def __str__(self):
-    #    return self.acronym
 
-    # class Meta:
-    #    database = db
+class Favorite(Document):
+    id = StringField(max_length=200, unique=True, primary_key=True)
+    user = StringField(default="0")
+    event = StringField(max_length=200, default="")
+

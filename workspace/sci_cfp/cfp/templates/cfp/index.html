@@ -42,15 +42,22 @@
       <div class="row">
         {% for event in events %}
         <div class="col-md-6">
-          <div class="featured-article">
+          <div class="featured-article" id="{{ event.id }}">
     				<a href="/cfp/event/{{ event.id }}">
     					<img src="{{ event.image }}" alt="" class="thumb">
     				</a>
     				<div class="block-title">
-              <a href="/cfp/event/{{ event.id }}">
+                        <div class="col-md-11" style="width: 94.6667%; padding-right: 0;">
+                            <a href="/cfp/event/{{ event.id }}">
       					<h5>{{ event.acronym }} - {{ event.title_event }}</h5>
       					<p class="by-author"><small>Deadline: {{ event.submission_deadline|date:"M. d, Y" }}</small></p>
-              </a>
+                            </a>
+                        </div>
+                        <div class="col-md-1" style="width: 5.33333%; padding-left: 0; padding-right: 0;">
+                          <a class="favorite">
+                              <span style="font-size: 28px; color: #fff;" class="fa fa-star-o"></span>
+                          </a>
+                        </div>
     				</div>
             <div class="block-location">
               <a href="/cfp/event/{{ event.id }}">
@@ -71,104 +78,72 @@
             {% endif %}
         </ul>
         </nav>
-        <!--div class="col-md-6">
-          <div class="featured-article">
-    				<a href="#">
-    					<img src="{% static 'cfp/img/berlin-germany.png' %}" alt="" class="thumb">
-    				</a>
-    				<div class="block-title">
-              <a href="#">
-      					<h5>IJBES - International journal of Biomedical Engineering and Science</h5>
-      					<p class="by-author"><small>Deadline: 2017-01-21</small></p>
-              </a>
-    				</div>
-            <div class="block-location">
-              <a href="#">
-      				  <h1>Berlin</h1>
-              </a>
-              <p><small>Germany</small></p>
-    				</div>
-    			</div>
-        </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="featured-article">
-    				<a href="#">
-    					<img src="{% static 'cfp/img/paris-france.png' %}" alt="" class="thumb">
-    				</a>
-    				<div class="block-title">
-              <a href="#">
-      					<h5>AEIJ - Advanced Energy: An International Journal</h5>
-      					<p class="by-author"><small>Deadline: 2017-01-21</small></p>
-              </a>
-    				</div>
-            <div class="block-location">
-              <a href="#">
-      				  <h1>Paris</h1>
-              </a>
-              <p><small>France</small></p>
-    				</div>
-    			</div>
+      <!-- Modal -->
+        <div class="modal fade bs-example-modal-sm modal-hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Log in</h4>
+              </div>
+              <div class="modal-body">
+              <link rel="stylesheet" type="text/css" href="{% static 'cfp/css/login.css' %}" />
+                <form class="form-signin" action="{% url 'cfp:login' %}" method="POST" style="margin: 0px;">
+                    {% csrf_token %}
+                    {% if login_error %}
+                    <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        {{login_error}}
+                    </div>
+                    {% endif %}
+                    <label for="inputEmail" class="sr-only">Email address</label>
+                    <input id="inputEmail" name="email" class="form-control" placeholder="Email address" required="" autofocus="" type="email">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input id="inputPassword" name="password" class="form-control" placeholder="Password" required="" type="password">
+                    <div class="checkbox">
+                      <label>
+                        <a href="#">Forgot your password?</a>
+                      </label>
+                    </div>
+                    {% if next %}
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                    {% endif %}
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <a href="/cfp/signup" class="" role="button">Register</a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-6">
-          <div class="featured-article">
-    				<a href="#">
-    					<img src="{% static 'cfp/img/buenosaires-argentina.png' %}" alt="" class="thumb">
-    				</a>
-    				<div class="block-title">
-              <a href="#">
-      					<h5>IJCNC - International Journal of Computer Networks & Communications</h5>
-      					<p class="by-author"><small>Deadline: 2017-01-21</small></p>
-              </a>
-    				</div>
-            <div class="block-location">
-              <a href="#">
-      				  <h1>Buenos Aires</h1>
-      				</a>
-              <p><small>Argentina</small></p>
-    				</div>
-    			</div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="featured-article">
-    				<a href="#">
-    					<img src="{% static 'cfp/img/uppsala-sweden.png' %}" alt="" class="thumb">
-    				</a>
-    				<div class="block-title">
-              <a href="#">
-      					<h5>MBT - 11th International Workshop on Model-Based Testing</h5>
-      					<p class="by-author"><small>Deadline: 2017-01-23</small></p>
-              </a>
-    				</div>
-            <div class="block-location">
-              <a href="#">
-      				  <h1>Uppsala</h1>
-              </a>
-              <p><small>Sweden</small></p>
-    				</div>
-    			</div>
-        </div>
-        <div class="col-md-6">
-          <div class="featured-article">
-    				<a href="#">
-    					<img src="{% static 'cfp/img/sydney-australy.png' %}" alt="" class="thumb">
-    				</a>
-    				<div class="block-title">
-              <a href="#">
-      					<h5>ITCS - Sixth International Conference on Information Technology Convergence and Services</h5>
-      					<p class="by-author"><small>Deadline: 2017-01-24</small></p>
-              </a>
-    				</div>
-            <div class="block-location">
-              <a href="#">
-      				  <h1>Sydney</h1>
-              </a>
-              <p><small>Australia</small></p>
-    				</div>
-    			</div>
-        </div-->
-      </div>
+      <script type="text/javascript">
+      $(document).ready(function() {
+        $('a.favorite').on('click', '', function(event){
+            e = $(this).parents('div.featured-article').attr('id')
+            s = $(this).find('span')
+            f = 0
+            if (s.hasClass('fa-star-o')) {
+                f = 1
+            }
+            $.ajax({
+                url: "/cfp/favorite",
+                type: "POST",
+                cache: false,
+                data: {'d':e,'s':f},
+                success: function(response) {
+                    if (response['status'] == '200') {
+                        s.exchangeClass('fa-star-o', 'fa-star')
+                    }
+                    if (response.not_authenticated) {
+                        console.log('text')
+                        $('#myModal').modal({'show': true})
+                    }
+                }
+            });
+        });
+      });
+      </script>
     {% endblock %}

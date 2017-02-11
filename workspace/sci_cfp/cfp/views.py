@@ -6,10 +6,12 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse, Http404
 from django.db import IntegrityError
 from django.utils import timezone
 from cfp.models import *
+from decorators import ajax_login_required
+
 
 def index(request):
     events = Event.objects.all()
@@ -31,7 +33,8 @@ def index(request):
 @csrf_protect
 def login_user(request):
     if request.method == 'GET':
-        return render(request, 'cfp/login.html', dict())
+        next = request.GET.get('next', '')
+        return render(request, 'cfp/login.html', dict(next=next))
 
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -81,7 +84,34 @@ def signup_user(request):
         return render(request, 'cfp/login.html', dict())
 
 
-@login_required(login_url='/cfp')
+@login_required(login_url='/cfp/login')
 def event(request, event_id):
     event = Event.objects.get(id=event_id)
     return render(request, 'cfp/event.html', dict(event=event))
+
+
+#@login_required(login_url='/cfp/login')
+@ajax_login_required
+def favorite(request):
+    if request.method == 'GET':
+        raise Http404
+
+    status = 200
+    event_id = request.POST.get('d')
+    save = request.POST.get('s')
+    username = request.user.username
+    print event_id, username, save
+    if save == '1':
+        favorite = Favorite()
+        favorite.id = username + event_id
+        favorite.event = event_id
+        favorite.user = username
+        favorite.save()
+    elif save == '0':
+        Favorite.objects(id=username + event_id).delete()
+    else:
+        status = 201
+
+    print status
+    return JsonResponse({'status': status})
+
