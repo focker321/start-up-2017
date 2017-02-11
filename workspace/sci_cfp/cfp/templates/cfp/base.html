@@ -192,11 +192,11 @@
             <li>
               <form class="navbar-form">
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search">
+                  <input id="sci-cfp-search-in" type="text" class="form-control" placeholder="Search">
                   <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" style="border-bottom-left-radius: 0; border-top-left-radius: 0;">
+                    <a id="sci-cfp-search-btn" class="btn btn-default" role="button" style="border-bottom-left-radius: 0; border-top-left-radius: 0;">
                       <span class="glyphicon glyphicon-search"></span>
-                    </button>
+                    </a>
                   </span>
                 <div>
               </form>
@@ -245,7 +245,6 @@
       </footer>
     </div> <!-- /container -->
 
-
-
+  <script src="{% static 'cfp/js/search.js' %}"></script>
   </body>
 </html>
