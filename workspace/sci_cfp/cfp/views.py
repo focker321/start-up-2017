@@ -81,6 +81,33 @@ def signup_user(request):
         return render(request, 'cfp/login.html', dict())
 
 
+def search(request):
+    if request.method == 'GET':
+
+        paramQ = request.GET.get('q', '')
+
+        events = Event.objects(__raw__= { '$or': [{'title_event': {'$regex': paramQ, '$options' : 'i'}}, 
+        {'location': {'$regex': paramQ, '$options' : 'i'}},
+        {'categories': {'$regex': paramQ, '$options' : 'i'}}]})
+
+        paginator = Paginator(events, 10)
+        try:
+            page_number = int(request.GET.get('page', '1'))
+        except ValueError:
+            page_number = 1
+        
+        try:
+            events = paginator.page(page_number)
+        except (InvalidPage, EmptyPage):
+            events = paginator.page(paginator.num_pages)
+        
+        return render(request, "cfp/search.html", {
+            "events": events
+        })
+    else:
+        return render(request, 'cfp/login.html', dict())
+
+
 @login_required(login_url='/cfp')
 def event(request, event_id):
     event = Event.objects.get(id=event_id)
