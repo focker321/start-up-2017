@@ -55,7 +55,11 @@
                         </div>
                         <div class="col-md-1" style="width: 5.33333%; padding-left: 0; padding-right: 0;">
                           <a class="favorite">
+                              {% if event.id in favorites %}
+                              <span style="font-size: 28px; color: #fff;" class="fa fa-star"></span>
+                              {% else %}
                               <span style="font-size: 28px; color: #fff;" class="fa fa-star-o"></span>
+                              {% endif %}
                           </a>
                         </div>
     				</div>

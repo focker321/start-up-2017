@@ -15,7 +15,11 @@ from decorators import ajax_login_required
 
 def index(request):
     events = Event.objects.all()
+    favorites = Favorite.objects.filter(user=request.user.username)
+    favorites = [f.event for f in favorites]
     paginator = Paginator(events, 10)
+
+    print request.user.username, favorites
 
     try:
         page_number = int(request.GET.get('page', '1'))
@@ -27,7 +31,7 @@ def index(request):
     except (InvalidPage, EmptyPage):
         events = paginator.page(paginator.num_pages)
 
-    return render(request, 'cfp/index.html', dict(events=events))
+    return render(request, 'cfp/index.html', dict(events=events, favorites=favorites))
 
 
 @csrf_protect
@@ -100,7 +104,7 @@ def favorite(request):
     event_id = request.POST.get('d')
     save = request.POST.get('s')
     username = request.user.username
-    print event_id, username, save
+
     if save == '1':
         favorite = Favorite()
         favorite.id = username + event_id
@@ -112,6 +116,5 @@ def favorite(request):
     else:
         status = 201
 
-    print status
     return JsonResponse({'status': status})
 
