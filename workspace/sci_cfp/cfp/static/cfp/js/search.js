@@ -10,7 +10,7 @@ $(document).ready(function () {
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) { //Enter keycode                        
             e.preventDefault();
-            window.location = "/buscador";
+            window.location = "/cfp/search?q=" + $('#sci-cfp-search-in').val();
         }
     }
 });
