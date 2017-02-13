@@ -19,8 +19,6 @@ def index(request):
     favorites = [f.event for f in favorites]
     paginator = Paginator(events, 10)
 
-    print request.user.username, favorites
-
     try:
         page_number = int(request.GET.get('page', '1'))
     except ValueError:

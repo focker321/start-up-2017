@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from mongoengine import *
 # Create your models here.
-
+# db.event.update({}, {$rename:{"location":"city"}}, false, true);
 
 class Event(Document):
     id = StringField(max_length=200, unique=True, primary_key=True)
@@ -18,7 +18,8 @@ class Event(Document):
     camera_ready = DateTimeField(default=None, null=True)
     type_event = StringField(max_length=255, default="")
     notification_date = DateTimeField(default=None, null=True)
-    location = StringField(max_length=500, default="")
+    city = StringField(max_length=500, default="")
+    country = StringField(max_length=500, default="")
     start_date = DateTimeField(default=None, null=True)
     categories = StringField(max_length=500, default="")
     description = StringField(default="")
