@@ -1,5 +1,21 @@
     {% extends 'cfp/base.html' %}
     {% load staticfiles %}
+    {% load replace %}
+
+    {% block meta %}
+    <meta property="og:image" content="{{ 'http://'|add:request.get_host }}{{ event.image|replace_social_img }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Call For Papers">
+    <meta property="og:url" content="{{ 'http://'|add:request.get_host|add:request.path }}">
+    <meta property="og:title" content="{{ event.acronym }} - {{ event.title_event }}" />
+    <meta property="og:description" content="{{ event.description|slice:'0:200' }}" />
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@CallForPapers">
+    <meta name="twitter:title" content="{{ event.acronym }} - {{ event.title_event }}">
+    <meta name="twitter:description" content="{{ event.description|slice:'0:200' }}">
+    <meta name="twitter:image" content="{{ 'http://'|add:request.get_host }}{{ event.image|replace_social_img }}">
+    {% endblock %}
 
     {% block content %}
       <div class="row">

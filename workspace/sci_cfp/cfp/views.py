@@ -122,7 +122,6 @@ def search(request):
         return render(request, 'cfp/login.html', dict())
 
 
-@login_required(login_url='/cfp/login')
 def event(request, event_id):
     event = Event.objects.get(id=event_id)
     return render(request, 'cfp/event.html', dict(event=event))
