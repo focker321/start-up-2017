@@ -38,6 +38,9 @@ class Category(Document):
     id = SequenceField(primary_key=True)
     title = StringField(default="")
 
+    def as_json(self):
+        return dict(id=self.id, title=self.title)
+
 
 class Recommendation(Document):
     id = SequenceField(primary_key=True)

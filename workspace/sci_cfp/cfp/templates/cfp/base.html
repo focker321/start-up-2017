@@ -23,6 +23,9 @@
     <!-- Custom styles for this template -->
     <link href="{% static 'cfp/css/jumbotron.css' %}" rel="stylesheet">
 
+    <!-- SCI-CFP -->
+    <link href="{% static 'cfp/css/sci-cfp.css' %}" rel="stylesheet">
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -48,113 +51,6 @@
 
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Oswald">
 
-    <style type="text/css">
-    .navbar-brand {
-      position: absolute;
-      width: 100%;
-      left: 0;
-      text-align: center;
-      margin:0 auto;
-    }
-    .navbar-toggle {
-      z-index:3;
-    }
-    .jumbotron {
-      background-image: url("{% static 'cfp/img/background-image.jpg' %}");
-      background-size: 1270px 506px;
-      background-repeat: no-repeat;
-      padding-bottom: 98px;
-      padding-top: 258px;
-      height: 506px;
-    }
-    .phrase {
-      color: #818080 !important;
-      font-size: 30px !important;
-      font-weight: normal !important;
-      margin-bottom: 39px !important;
-    }
-    .cat {
-      font-size: 16px !important;
-      font-weight: 400 !important;
-      text-decoration: none !important;
-    }
-    .nav {
-      font-size: 16px !important;
-      font-weight: 400 !important;
-      text-decoration: none !important;
-    }
-
-    .featured-article {
-      width: 100%;
-      height: 180px;
-      position: relative;
-      margin-bottom: 1em;
-      background: rgba(92,184,92,0.5);
-      display: block;
-    }
-    .featured-article a img {
-      z-index: -1;
-      position: relative;
-    }
-    .featured-article .block-title {
-    	position: absolute;
-    	bottom: 0;
-    	left: 0;
-    	z-index: 1;
-    	background: rgba(0,0,0,0.5);
-    	padding: .5em;
-    	width: 100%;
-    	color: #fff;
-    }
-    .featured-article .block-title h5, .featured-article .block-title p {
-    	margin: 0;
-    }
-    .featured-article .block-title a, .featured-article .block-location a {
-      color: #ffffff;
-    	text-decoration: none;
-    }
-    .featured-article .block-location a {
-      font-family: 'Oswald', serif;
-      text-shadow: 4px 4px 4px #aaa;
-    }
-    .featured-article .block-location {
-    	position: absolute;
-    	top: 0;
-    	right: 0;
-    	z-index: 1;
-    	padding: .5em;
-    	width: 100%;
-    	color: #fff;
-    }
-    .featured-article .block-location h1 {
-      margin: 0;
-      font-size: 46px;
-    }
-    .featured-article .block-location h1, .featured-article .block-location p {
-      text-align: right;
-    }
-    .featured-article .block-location p {
-      color: #555;
-      font-weight: bold;
-    }
-
-    .navbar-nav-btn {
-      padding: 6px 12px !important;
-      display: inline-block !important;
-    }
-
-    .favorite {
-      cursor: pointer;
-    }
-
-    .modal-hide {
-      display: none;
-    }
-    .modal-show {
-      display: block;
-      padding-left: 0px;
-    }
-    </style>
   </head>
 
   <body style="background-color: #f6f6f6;">
@@ -176,14 +72,62 @@
           <ul class="nav navbar-nav">
             <li><a href="#">Recent</a></li>
             <li><a href="#">Most Popular</a></li>
-            <li class="dropdown">
+            <li class="dropdown dropdown-large">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
+              <ul class="dropdown-menu dropdown-menu-large row">
+                <li class="col-sm-3">
+                  <ul>
+                    <li class="dropdown-header">Architecture & Design</li>
+                    <li><a href="#"></a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Astronomy</li>
+                    <li><a href="#"></a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Biomedical Sciences</li>
+                    <li><a href="#"></a></li>
+                  </ul>
+                </li>
+                <li class="col-sm-3">
+                  <ul>
+                    <li class="dropdown-header">Chemistry</li>
+                    <li><a href="#"></a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Computer Science</li>
+                    <li><a href="#">Machine Learning</a></li>
+                    <li><a href="#">Software Engineering</a></li>
+                    <li><a href="#">Data Mining</a></li>
+                    <li><a href="#">Natural Language Processing</a></li>
+                    <li><a href="#">Cloud Computing</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Network  & Communication</a></li>
+                  </ul>
+                </li>
+                <li class="col-sm-3">
+                  <ul>
+                    <li class="dropdown-header">Economics</li>
+                    <li><a href="#"></a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Education & Language</li>
+                    <li><a href="#"></a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Engineering</li>
+                    <li><a href="#"></a></li>
+                  </ul>
+                </li>
+                <li class="col-sm-3">
+                  <ul>
+                    <li class="dropdown-header">Mathematics</li>
+                    <li><a href="#"></a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Medicine</li>
+                    <li><a href="#"></a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Psychology</li>
+                    <li><a href="#"></a></li>
+                    <li class="divider"></li>
+                    <li><button type="button" class="btn btn-link"><b><h4>More Categories...</h4></b></button></li>
+                  </ul>
+                </li>
               </ul>
             </li>
           </ul>

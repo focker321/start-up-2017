@@ -11,6 +11,7 @@ from django.db import IntegrityError
 from django.utils import timezone
 from cfp.models import *
 from decorators import ajax_login_required
+from django.core import serializers
 
 
 def index(request):
@@ -143,3 +144,10 @@ def favorite(request):
 
     return JsonResponse({'status': status})
 
+
+def get_categories(request):
+    if request.method == 'GET':
+        raise Http404
+
+    data = [c.as_json() for c in Category.objects.all().order_by('title')]
+    return JsonResponse({'categories': data})
