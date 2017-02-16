@@ -23,6 +23,9 @@ class Event(Document):
     start_date = DateTimeField(default=None, null=True)
     categories = StringField(max_length=500, default="")
     description = StringField(default="")
+    rating = DecimalField(default=0.0)
+    city = StringField(max_length=500, default="")
+    country = StringField(max_length=500, default="")
 
 
 class Favorite(Document):
@@ -30,3 +33,26 @@ class Favorite(Document):
     user = StringField(default="0")
     event = StringField(max_length=200, default="")
 
+
+class Category(Document):
+    id = SequenceField(primary_key=True)
+    title = StringField(default="")
+
+
+class Recommendation(Document):
+    id = SequenceField(primary_key=True)
+    user = StringField(default="0")
+    event = StringField(max_length=200, default="")
+    prediction = DecimalField(default=0.0)
+
+
+class ProfileEvent(Document):
+    id = SequenceField(primary_key=True)
+    event = StringField(max_length=200, default="")
+    type = StringField(max_length=200, default="")
+    feature = StringField(max_length=200, default="")
+    feature_value = DecimalField(default=0.0)
+    feature_order = IntField(default=0)
+    meta = {
+        'ordering': ['feature_order']
+    }
