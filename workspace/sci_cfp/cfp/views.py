@@ -11,13 +11,12 @@ from django.db import IntegrityError
 from django.utils import timezone
 from cfp.models import *
 from decorators import ajax_login_required
-from django.core import serializers
 
 
 def index(request):
     events = Event.objects.all()
-    favorites = Favorite.objects.filter(user=request.user.username)
-    favorites = [f.event for f in favorites]
+    favorites = Favorite.objects.filter(user_id=request.user.id)
+    favorites = [f.event_id for f in favorites]
     paginator = Paginator(events, 10)
 
     try:
@@ -74,10 +73,19 @@ def signup_user(request):
         # last_name = request.POST.get('last_name', '')
         email = request.POST.get('email', '').lower()
         password = request.POST.get('password', '')
+        tags = request.POST.getlist('tags[]', '')
+
         try:
             user = User.objects.create_user(username=email, email=email, password=password, first_name=first_name, last_login=timezone.now())
             user.is_active = True
             user.save()
+
+            for tag_id in tags:
+                interest = Interest()
+                interest.user_id = user.id
+                interest.category_id = int(tag_id)
+                interest.save()
+
         except IntegrityError:
             error = "Email address already registered."
             return render(request, "cfp/signup.html", dict(signup_error=error))
@@ -120,7 +128,6 @@ def event(request, event_id):
     return render(request, 'cfp/event.html', dict(event=event))
 
 
-#@login_required(login_url='/cfp/login')
 @ajax_login_required
 def favorite(request):
     if request.method == 'GET':
@@ -129,16 +136,16 @@ def favorite(request):
     status = 200
     event_id = request.POST.get('d')
     save = request.POST.get('s')
-    username = request.user.username
+    user_id = request.user.id
 
     if save == '1':
         favorite = Favorite()
-        favorite.id = username + event_id
-        favorite.event = event_id
-        favorite.user = username
+        favorite.id = str(user_id) + event_id
+        favorite.event_id = event_id
+        favorite.user_id = user_id
         favorite.save()
     elif save == '0':
-        Favorite.objects(id=username + event_id).delete()
+        Favorite.objects(id=str(user_id) + event_id).delete()
     else:
         status = 201
 
@@ -149,5 +156,37 @@ def get_categories(request):
     if request.method == 'GET':
         raise Http404
 
-    data = [c.as_json() for c in Category.objects.all().order_by('title')]
+    data = [c.as_json() for c in Category.objects.all()]
     return JsonResponse({'categories': data})
+
+
+@login_required(login_url='/cfp/login')
+def profile(request):
+    if request.method == 'GET':
+        interests = [i.category_id for i in Interest.objects.filter(user_id=request.user.id)]
+        return render(request, 'cfp/profile.html', dict(interests=interests))
+
+    elif request.method == 'POST':
+        first_name = request.POST.get('first_name', '')
+        email = request.POST.get('email', '').lower()
+        tags = request.POST.getlist('tags[]', '')
+        tags = [int(t) for t in tags]
+
+        try:
+            user = User.objects.get(id=request.user.id)
+            user.first_name = first_name
+            user.email = email
+            user.save()
+
+            Interest.objects.filter(user_id=request.user.id).delete()
+            for tag_id in tags:
+                interest = Interest()
+                interest.user_id = request.user.id
+                interest.category_id = tag_id
+                interest.save()
+
+        except IntegrityError:
+            error = "Email address already exits."
+            return render(request, "cfp/profile.html", dict(profile_error=error))
+
+        return render(request, "cfp/profile.html", dict(interests=tags))

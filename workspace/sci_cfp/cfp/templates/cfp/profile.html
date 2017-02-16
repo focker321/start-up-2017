@@ -1,18 +1,21 @@
     {% extends 'cfp/base.html' %}
     {% load staticfiles %}
 
-    {% block content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'cfp/css/signup.css' %}" />
+    {% block banner %}
     <link rel="stylesheet" type="text/css" href="{% static 'cfp/css/magicsuggest-min.css' %}" />
     <script src="{% static 'cfp/js/magicsuggest-min.js' %}"></script>
+    <br>
+    <br>
+    {% endblock %}
 
+    {% block content %}
     <div class="row">
-        <div class="col-md-6"></div>
-        <div class="col-md-6">
-            <form class="form-signup" action="{% url 'cfp:signup' %}" method="POST">
+        <div class="col-md-3"></div>
+        <div class="col-md-6" style="background-color: #fff; padding: 50px; border: 1px solid #ccc;">
+            <form class="form-signup" action="{% url 'cfp:profile' %}" method="POST">
                 {% csrf_token %}
                 <div class="page-header">
-                    <h1>Registration</h1>
+                    <h1>Profile</h1>
                 </div>
                 {% if signup_error %}
                 <div class="alert alert-danger" role="alert">
@@ -23,7 +26,7 @@
                 {% endif %}
                 <div class="form-group">
                     <label for="first_name">Name*</label>
-                    <input name="first_name" type="text" class="form-control" id="first_name" placeholder="Name" autocomplete="off" required>
+                    <input name="first_name" type="text" class="form-control" id="first_name" placeholder="Name" autocomplete="off" value="{{ user.first_name }}" required>
                 </div>
                 <!--div class="form-group">
                     <label for="last_name">Surname</label>
@@ -31,25 +34,19 @@
                 </div-->
                 <div class="form-group">
                     <label for="email">Email*</label>
-                    <input name="email" type="text" class="form-control" id="email" placeholder="Email" autocomplete="off" maxlength="30" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password*</label>
-                    <input name="password" type="password" class="form-control" id="password" placeholder="Password" required>
+                    <input name="email" type="text" class="form-control" id="email" placeholder="Email" autocomplete="off" maxlength="30" value="{{ user.email }}" required>
                 </div>
                 <div class="form-group">
                     <label for="tags">Topics*</label>
-                    <input name="tags" type="text" class="form-control" id="tags" placeholder="Topics of Interest" required>
+                    <input name="tags" type="text" class="form-control" id="tags" placeholder="Topics of Interest" value="{{ interests }}" required>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
             </form>
         </div>
+        <div class="col-md-3"></div>
     </div>
     <script type="text/javascript">
         $(document).ready(function() {
-            $("input[type='text']").val('')
-            $("input[type='email']").val('')
-            $("input[type='password']").val('')
             $("#tags").magicSuggest({
                 allowFreeEntries: false,
                 maxSelection: 20,

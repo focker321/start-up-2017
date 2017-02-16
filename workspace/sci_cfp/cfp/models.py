@@ -30,13 +30,16 @@ class Event(Document):
 
 class Favorite(Document):
     id = StringField(max_length=200, unique=True, primary_key=True)
-    user = StringField(default="0")
-    event = StringField(max_length=200, default="")
+    user_id = IntField(default=0)
+    event_id = StringField(max_length=200, default="")
 
 
 class Category(Document):
     id = SequenceField(primary_key=True)
     title = StringField(default="")
+    meta = {
+        'ordering': ['title']
+    }
 
     def as_json(self):
         return dict(id=self.id, title=self.title)
@@ -59,3 +62,9 @@ class ProfileEvent(Document):
     meta = {
         'ordering': ['feature_order']
     }
+
+
+class Interest(Document):
+    id = SequenceField(primary_key=True)
+    user_id = IntField(default=0)
+    category_id = IntField(default=0)
