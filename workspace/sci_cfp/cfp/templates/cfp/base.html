@@ -149,8 +149,8 @@
               </form>
             </li>
             {% if user.first_name|length == 0 %}
-            <li>&nbsp;<a href="/cfp/signup" class="btn btn-info navbar-btn navbar-nav-btn" role="button">Sign up</a></li>
-            <li>&nbsp;<a href="/cfp/login" class="btn btn-success navbar-btn navbar-nav-btn" role="button">Sign in</a></li>
+            <li>&nbsp;<a href="/cfp/signup" class="btn btn-info navbar-btn navbar-nav-btn btn-signup" role="button">Sign up</a></li>
+            <li>&nbsp;<a href="/cfp/login" class="btn btn-success navbar-btn navbar-nav-btn btn-signin" role="button">Sign in</a></li>
             {% else %}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
