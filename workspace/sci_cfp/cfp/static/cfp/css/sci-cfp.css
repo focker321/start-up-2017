@@ -44,6 +44,9 @@
 .featured-article a img {
   z-index: -1;
   position: relative;
+  width: 100%;
+  max-height: 180px;
+  min-height: 180px;
 }
 .featured-article .block-title {
     position: absolute;
