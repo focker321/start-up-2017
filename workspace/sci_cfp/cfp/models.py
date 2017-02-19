@@ -32,6 +32,7 @@ class Favorite(Document):
     id = StringField(max_length=200, unique=True, primary_key=True)
     user_id = IntField(default=0)
     event_id = StringField(max_length=200, default="")
+    notify = IntField(default="1")
 
 
 class Category(Document):

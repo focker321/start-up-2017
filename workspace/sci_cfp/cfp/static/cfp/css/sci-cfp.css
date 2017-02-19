@@ -214,3 +214,65 @@
     padding: 3px 15px !important;
   }
 }
+
+
+/************************
+ ****** EVENT PAGE ******
+ ************************/
+.event-header {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    margin-top: 10px;
+    height: 200px;
+    padding: 20px;
+}
+.event-header div {
+    height: 150px;
+}
+.event-header-image {
+    padding: 0px;
+}
+.event-header-image img {
+    width: 100%;
+}
+.event-header-buttons button {
+    width: 100%;
+    box-shadow: 5px 5px 5px #eee;
+}
+.event-header-buttons footer {
+    position: absolute;
+    bottom: 0;
+    color: #ccc;
+}
+.followers {
+    color: #269abc;
+    font-size: 18px;
+}
+.event-body {
+    margin-top: 25px;
+}
+.event-description {
+    background-color: #fff;
+    margin-right: 2px;
+    border: 1px solid #ccc;
+    padding: 25px 40px;
+    font-size: 16px;
+    /* font-family: "Open Sans",Arial,Helvetica,sans-serif; */
+}
+.event-description div {
+    padding: 15px;
+}
+.event-dates {
+    background-color: #fff;
+    margin-left: 2px;
+    border: 1px solid #ccc;
+}
+.event-dates div {
+    padding: 15px;
+}
+.event-dates td {
+    padding-top: 10px;
+    padding-botton: 10px;
+}

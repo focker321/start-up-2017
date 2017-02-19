@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'logout', views.logout_user, name='logout'),
     url(r'favorite', views.favorite, name='favorite'),
     url(r'getcategories', views.get_categories, name='get_categories'),
+    url(r'notification/active', views.notification_active, name='notification_active'),
     url(r'^event/([a-zA-Z0-9 _-]+)/$', views.event, name='events'),
 ]

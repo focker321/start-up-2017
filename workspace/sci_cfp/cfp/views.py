@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, JsonResponse, Http404
 from django.db import IntegrityError
 from django.utils import timezone
+
 from cfp.models import *
 from decorators import ajax_login_required
 
@@ -123,8 +124,15 @@ def search(request):
 
 
 def event(request, event_id):
+    user_id = request.user.id
     event = Event.objects.get(id=event_id)
-    return render(request, 'cfp/event.html', dict(event=event))
+    try:
+        favorite = Favorite.objects.get(id=str(user_id) + event_id)
+        followers = Favorite.objects.filter(event_id=event_id).count()
+    except Favorite.DoesNotExist:
+        favorite = None
+        followers = 0
+    return render(request, 'cfp/event.html', dict(event=event, favorite=favorite, num_followers=followers))
 
 
 @ajax_login_required
@@ -148,6 +156,32 @@ def favorite(request):
     else:
         status = 201
 
+    followers = Favorite.objects.filter(event_id=event_id).count()
+
+    return JsonResponse({'status': status, 'num_followers': followers})
+
+
+@ajax_login_required
+def notification_active(request):
+    if request.method == 'GET':
+        raise Http404
+
+    status = 200
+    event_id = request.POST.get('d')
+    activate = request.POST.get('s')
+    user_id = request.user.id
+    favorite_id = str(user_id) + event_id
+
+    favorite = Favorite.objects.get(id=favorite_id)
+
+    if activate == 'true':
+        favorite.notify = 1
+    elif activate == 'false':
+        favorite.notify = 0
+    else:
+        status = 201
+
+    favorite.save()
     return JsonResponse({'status': status})
 
 

@@ -1,6 +1,7 @@
     {% extends 'cfp/base.html' %}
     {% load staticfiles %}
     {% load replace %}
+    {% load humanize %}
 
     {% block meta %}
     <meta property="og:image" content="{{ 'http://'|add:request.get_host }}{{ event.image|replace_social_img }}" />
@@ -18,52 +19,158 @@
     {% endblock %}
 
     {% block content %}
-      <div class="row">
-        <div class="col-md-12" align="center">
-          <img src="{{ event.image }}" style="width: 70%;">
+    <div id="{{ event.id }}" class="row event-header">
+        <div class="col-md-3 event-header-image"><img src="{{ event.image|replace_social_img }}"></div>
+        <div class="col-md-6 event-header-title">
+            <h4>{{ event.acronym }} : {{ event.title_event }}</h4>
+            <p></p>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h3>{{ event.acronym }} - {{ event.title_event }}</h3>
-          <hr>
-          <h4><b>Important Dates</b></h4>
+        <div class="col-md-3 event-header-buttons">
+            {% if favorite %}
+            <button id="follow" type="button" class="btn btn-info active">Following</button>
+            <div class="checkbox">
+                <label>
+                    {% if favorite.notify == 1 %}
+                    <input type="checkbox" checked> I would like to receive emails of the important dates from this event.
+                    {% else %}
+                    <input type="checkbox"> I would like to receive emails of the important dates from this event.
+                    {% endif %}
+                </label>
+            </div>
+            {% else %}
+            <button id="follow" type="button" class="btn btn-default">Follow</button>
+            <div class="checkbox" style="display: none;">
+                <label>
+                    <input type="checkbox" checked> I would like to receive emails of the important dates from this event.
+                </label>
+            </div>
+            {% endif %}
+            <footer>FOLLOWERS: <b class="followers">{{ num_followers|intcomma }}</b></footer>
         </div>
-      </div>
-      <div class="row">
-          <div class="col-md-6">
-              <table>
-              <tr>
-                  <td><b>Submission Deadline</b>:&nbsp;</td>
-                  <td>{{ event.submission_deadline|date:"M. d, Y" }}</td>
-              </tr>
-              <tr>
-                  <td><b>Author Notification</b>:&nbsp;</td>
-                  <td>{{ event.notification_date|date:"M. d, Y" }}</td>
-              </tr>
-              <tr>
-                  <td><b>Camera-ready</b>:&nbsp;</td>
-                  <td>{{ event.camera_ready|date:"M. d, Y" }}</td>
-              </tr>
-              </table>
-          </div>
-          <div class="col-md-6">
-              <table>
-              <tr>
-                  <td><b>Event date</b>:&nbsp;</td>
-                  <td>{{ event.start_date|date:"M. d, Y" }} - {{ event.end_date|date:"M. d, Y" }}</td>
-              </tr>
-              <tr>
-                  <td><b>Location</b>:&nbsp;</td>
-                  <td>{{ event.location }}</td>
-              </tr>
-              </table>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-md-12">
-              <hr>
-              {{ event.description }}
-          </div>
-      </div>
+    </div>
+    <div class="row event-body">
+        <div class="col-md-8">
+            <div class="row event-description">
+                <div class="col-md-12">
+                    {{ event.description }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row event-dates">
+                <div class="col-md-12">
+                <table>
+                <tr>
+                    <td><b>Submission Deadline</b>:&nbsp;</td>
+                    <td>{{ event.submission_deadline|date:"M. d, Y" }}</td>
+                </tr>
+                <tr>
+                    <td><b>Author Notification</b>:&nbsp;</td>
+                    <td>{{ event.notification_date|date:"M. d, Y" }}</td>
+                </tr>
+                <tr>
+                    <td><b>Camera-ready</b>:&nbsp;</td>
+                    <td>{{ event.camera_ready|date:"M. d, Y" }}</td>
+                </tr>
+                <tr>
+                    <td><b>Event date</b>:&nbsp;</td>
+                    <td>{{ event.start_date|date:"M. d, Y" }} - {{ event.end_date|date:"M. d, Y" }}</td>
+                </tr>
+                <tr>
+                    <td><b>Location</b>:&nbsp;</td>
+                    <td>{{ event.location }}</td>
+                </tr>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade bs-example-modal-sm modal-hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Log in</h4>
+                </div>
+                <div class="modal-body">
+                    <link rel="stylesheet" type="text/css" href="{% static 'cfp/css/login.css' %}" />
+                    <form class="form-signin" action="{% url 'cfp:login' %}" method="POST" style="margin: 0px;">
+                        {% csrf_token %}
+                        {% if login_error %}
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            {{login_error}}
+                        </div>
+                        {% endif %}
+                        <label for="inputEmail" class="sr-only">Email address</label>
+                        <input id="inputEmail" name="email" class="form-control" placeholder="Email address" required="" autofocus="" type="email">
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input id="inputPassword" name="password" class="form-control" placeholder="Password" required="" type="password">
+                        <div class="checkbox">
+                          <label>
+                            <a href="#">Forgot your password?</a>
+                          </label>
+                        </div>
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}"/>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                <a href="/cfp/signup" class="" role="button">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#follow').on('click', '', function(event){
+                f = $(this)
+                e = $('.event-header').attr('id')
+                a = 0
+                if (f.hasClass('btn-default')) { a = 1 }
+                $.ajax({
+                    url: "/cfp/favorite",
+                    type: "POST",
+                    cache: false,
+                    data: {'d':e,'s':a},
+                    success: function(response) {
+                        if (response['status'] == '200') {
+                            f.exchangeClass('btn-info', 'btn-default');
+                            if (f.hasClass('btn-info')) {
+                                f.addClass('active');
+                                f.text('Following');
+                                $('.checkbox').show()
+                            } else {
+                                f.removeClass('active');
+                                f.text('Follow');
+                                $('.checkbox').hide()
+                            }
+                            $('.followers').text(response['num_followers'])
+                        }
+                        if (response.not_authenticated) {
+                            $('#myModal').modal({'show': true});
+                        }
+                    }
+                });
+            });
+
+            $('.checkbox').on('click', '', function(event) {
+                e = $('.event-header').attr('id');
+                a = $(this).find('input').is(":checked");
+                $.ajax({
+                    url: "/cfp/notification/active",
+                    type: "POST",
+                    cache: false,
+                    data: {'d':e,'s':a},
+                    success: function(response) {
+                        if (response.not_authenticated) {
+                            $('#myModal').modal({'show': true});
+                        }
+                    }
+                });
+            });
+        });
+    </script>
     {% endblock %}
