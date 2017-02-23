@@ -228,7 +228,7 @@
     height: 200px;
     padding: 20px;
 }
-.event-header div {
+.event-header > div {
     height: 150px;
 }
 .event-header-image {
@@ -275,4 +275,69 @@
 .event-dates td {
     padding-top: 10px;
     padding-botton: 10px;
+}
+.event-header-title .reviews {
+    position: absolute;
+    bottom: 0;
+    width: 120px;
+    padding: 0 15px;
+    font-size: 16px;
+}
+.write, .seemore {
+    display: block;
+    text-align: center;
+    font-size: 18px;
+    text-decoration: none;
+}
+.write:hover, .seemore:hover {
+    text-decoration: none;
+}
+
+
+/************************
+ ****** FIVE STARS ******
+ ************************/
+.starrr {
+    display: inline-block;
+}
+.starrr a {
+    font-size: 16px;
+    padding: 0 1px;
+    cursor: pointer;
+    color: #FFD119;
+    text-decoration: none;
+}
+.rating {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+}
+.rating i {
+    font-size: 22px;
+    padding: 0px;
+    color: #FFD119;
+}
+
+td h5 {
+    margin: 0px;
+}
+td .rating {
+    font-size: 16px;
+    position: relative;
+    margin-bottom: 5px;
+}
+td .rating i {
+    font-size: 16px;
+    color: #31b0d5
+}
+td .rating .reviews {
+    padding: 0 5px;
+    font-size: 14px;
+    color: #aaa;
+}
+.stars {
+    margin: 10px 0;
+}
+.stars a {
+    font-size: 24px;
 }

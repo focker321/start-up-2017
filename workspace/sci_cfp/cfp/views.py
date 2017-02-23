@@ -126,13 +126,67 @@ def search(request):
 def event(request, event_id):
     user_id = request.user.id
     event = Event.objects.get(id=event_id)
+
     try:
         favorite = Favorite.objects.get(id=str(user_id) + event_id)
         followers = Favorite.objects.filter(event_id=event_id).count()
     except Favorite.DoesNotExist:
         favorite = None
         followers = 0
-    return render(request, 'cfp/event.html', dict(event=event, favorite=favorite, num_followers=followers))
+    try:
+        reviews = Review.objects.filter(event_id=event_id)
+        num_reviews = reviews.count()
+    except Review.DoesNotExist:
+        reviews = []
+        num_reviews = 0
+
+    stars = [r.stars for r in reviews]
+    avg_stars = float(sum(stars))/len(stars) if len(stars) > 0 else 0
+    num_stars = (15 + (avg_stars * len(stars))) / (5 + len(stars)) if len(stars) > 0 else 0
+
+    paginator = Paginator(reviews, 5)
+    reviews = paginator.page(1)
+    return render(request, 'cfp/event.html', dict(event=event, favorite=favorite, num_followers=followers,
+                                                  reviews=reviews, num_reviews=num_reviews, num_stars=num_stars,
+                                                  has_next=reviews.has_next()))
+
+
+@ajax_login_required
+def event_review(request):
+    if request.method == 'GET':
+        raise Http404
+
+    status = 200
+    event_id = request.POST.get('e')
+    stars = request.POST.get('s')
+    text = request.POST.get('r')
+    user_id = request.user.id
+
+    review = Review()
+    review.event_id = event_id
+    review.user_id = user_id
+    review.user_name = request.user.first_name
+    review.stars = stars
+    review.text = text
+    review.date = timezone.now()
+    review.save()
+
+    return JsonResponse({'status': status})
+
+
+def review(request):
+    if request.method == 'POST':
+        raise Http404
+
+    num_page = request.GET.get('p')
+    event_id = request.GET.get('e')
+    num_ignore = request.GET.get('i')
+
+    reviews = Review.objects.filter(event_id=event_id)
+    paginator = Paginator(reviews[int(num_ignore):], 5)
+    reviews = paginator.page(int(num_page))
+
+    return render(request, 'cfp/embed_reviews.html', dict(reviews=reviews, num_page=num_page, has_next=reviews.has_next()))
 
 
 @ajax_login_required

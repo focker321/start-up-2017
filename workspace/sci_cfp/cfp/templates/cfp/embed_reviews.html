@@ -1,0 +1,20 @@
+                {% load replace %}
+
+                {% for review in reviews %}
+                <tr data-page="{{ num_page }}" data-next="{{ has_next }}">
+                    <td>
+                        <h5><b>{{ review.user_name }}</b></h5>
+                        <div class='rating'>
+                            {% for i in "12345" %}
+                            {% if forloop.counter <= review.stars %}
+                            <i class="fa fa-star"></i>
+                            {% else %}
+                            <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% endfor %}
+                            <span class="reviews">{{ review.date|pretty_date }}</span>
+                        </div>
+                        <p>{{ review.text }}</p>
+                    </td>
+                </tr>
+                {% endfor %}

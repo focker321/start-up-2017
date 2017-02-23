@@ -69,3 +69,16 @@ class Interest(Document):
     id = SequenceField(primary_key=True)
     user_id = IntField(default=0)
     category_id = IntField(default=0)
+
+
+class Review(Document):
+    id = SequenceField(primary_key=True)
+    user_id = IntField(default=0)
+    user_name = StringField(max_length=200, default="")
+    event_id = StringField(max_length=200, default="")
+    text = StringField(max_length=1000, default="")
+    stars = IntField(default=0)
+    date = DateTimeField(default=None, null=True)
+    meta = {
+        'ordering': ['-date']
+    }

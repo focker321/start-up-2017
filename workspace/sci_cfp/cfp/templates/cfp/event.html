@@ -16,6 +16,8 @@
     <meta name="twitter:title" content="{{ event.acronym }} - {{ event.title_event }}">
     <meta name="twitter:description" content="{{ event.description|slice:'0:200' }}">
     <meta name="twitter:image" content="{{ 'http://'|add:request.get_host }}{{ event.image|replace_social_img }}">
+
+    <script src="{% static 'cfp/js/starrr.js' %}"></script>
     {% endblock %}
 
     {% block content %}
@@ -24,6 +26,16 @@
         <div class="col-md-6 event-header-title">
             <h4>{{ event.acronym }} : {{ event.title_event }}</h4>
             <p></p>
+            <div class='rating'>
+                {% for i in "12345" %}
+                {% if forloop.counter <= num_stars %}
+                <i class="fa fa-star"></i>
+                {% else %}
+                <i class="fa fa-star-o"></i>
+                {% endif %}
+                {% endfor %}
+                <a href="#reviews-header" class="reviews">{{ num_reviews|intcomma }} Reviews</a>
+            </div>
         </div>
         <div class="col-md-3 event-header-buttons">
             {% if favorite %}
@@ -85,6 +97,60 @@
             </div>
         </div>
     </div>
+    <h4 id="reviews-header"><b>Reviews</b></h4>
+    <div class="row event-reviews">
+        <div class="col-md-8">
+            <table class="table">
+                <theader>
+                    <tr>
+                        <td align="center"><a href="#" class="write">Write a review</a></td>
+                    </tr>
+                </theader>
+                <tbody id="write-review" style="display: none;">
+                <tr>
+                    <td>
+                        <form accept-charset="UTF-8" action="" method="POST" id="review">
+                            <input id="ratings-hidden" name="rating" value="0" type="hidden">
+                            <textarea class="form-control animated" cols="150" id="new-review" name="comment" placeholder="Enter your review here..." rows="5" style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 100px;"></textarea>
+
+                            <div class="text-right">
+                                <span id="helpBlock" class="text-danger help-block"></span>
+                                <div class="stars starrr" data-rating="0"></div><br>
+                                <a id="write-cancel" href="#" style="margin: 0 15px;">Cancel</a>
+                                <button class="btn btn-info btn-lg" type="submit">Save</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="table" id="reviews">
+                <tbody>
+                {% for review in reviews %}
+                <tr data-page="1">
+                    <td>
+                        <h5><b>{{ review.user_name }}</b></h5>
+                        <div class='rating'>
+                            {% for i in "12345" %}
+                            {% if forloop.counter <= review.stars %}
+                            <i class="fa fa-star"></i>
+                            {% else %}
+                            <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% endfor %}
+                            <span class="reviews">{{ review.date|pretty_date }}</span>
+                        </div>
+                        <p>{{ review.text }}</p>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                {% if has_next %}
+                <tfoot><tr><td align="right"><a href="#" id="seemore" class="seemore">See more</a></td></tr></tfoot>
+                {% endif %}
+            </table>
+        </div>
+    </div>
     <!-- Modal -->
     <div class="modal fade bs-example-modal-sm modal-hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-sm" role="document">
@@ -125,6 +191,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function() {
+            $('textarea').val('')
             $('#follow').on('click', '', function(event){
                 f = $(this)
                 e = $('.event-header').attr('id')
@@ -167,6 +234,83 @@
                     success: function(response) {
                         if (response.not_authenticated) {
                             $('#myModal').modal({'show': true});
+                        }
+                    }
+                });
+            });
+            $('.starrr').starrr();
+            $('.starrr').on('starrr:change', function(e, value){
+                if (value) {
+                    $('#ratings-hidden').val(value);
+                } else {
+                    $('#ratings-hidden').val(0);
+                }
+            });
+            $('form#review').on('click', 'button[type=submit]', function(e) {
+                if($('textarea').val() == '') {
+                    e.preventDefault();
+                    $('#helpBlock').text('Write a review.')
+                    return;
+                }
+                if($('input#ratings-hidden').val() == 0) {
+                    e.preventDefault();
+                    $('#helpBlock').text('Rate 5 stars.')
+                    return;
+                }
+                e.preventDefault();
+                e = $('.event-header').attr('id');
+                s = $('input#ratings-hidden').val()
+                r = $('textarea').val()
+                $.ajax({
+                    url: "/cfp/event/review/new",
+                    type: "POST",
+                    cache: false,
+                    data: {'e':e,'s':s,'r':r},
+                    success: function(response) {
+                        if (response['status'] == '200') {
+                            html = "<tr data-page='0'><td><h5><b>{{ user.first_name }}</b></h5><div class='rating'>"
+                            for (i=1; i<=s; i++) { html = html + "<i class='fa fa-star'></i>" }
+                            for (i=1; i<=5-s; i++) { html = html + "<i class='fa fa-star-o'></i>" }
+                            html = html + "<span class='reviews'>just now</span>"+
+                            "</div><p>"+r+"</p></td></tr>"
+                            $('#reviews>tbody').prepend(html)
+                            $('#write-review').hide()
+                            $('.write').show()
+                            $('input#ratings-hidden').val(0)
+                            $('textarea').val('')
+                            $($('.stars').find('a')[s-1]).trigger('click');
+                            $('#helpBlock').text('')
+                        }
+                        if (response.not_authenticated) {
+                            $('#myModal').modal({'show': true});
+                        }
+                    }
+                });
+            });
+            $('.write').on('click', '', function(e) {
+                e.preventDefault();
+                $('#write-review').show()
+                $(this).hide()
+            });
+            $('#write-cancel').on('click', '', function(e) {
+                e.preventDefault();
+                $('#write-review').hide()
+                $('.write').show()
+            });
+            $('#seemore').on('click', '', function(e) {
+                e.preventDefault();
+                p = $('#reviews>tbody>tr:last').data('page')+1;
+                i = $("#reviews>tbody>tr[data-page='0']").length;
+                e = $('.event-header').attr('id');
+                $.ajax({
+                    url: "/cfp/event/review/",
+                    type: "GET",
+                    cache: false,
+                    data: {'e':e,'p':p,'i':i},
+                    success: function(response) {
+                        $('#reviews>tbody').append(response)
+                        if ($('#reviews>tbody>tr:last').data('next') == 'False') {
+                            $('#seemore').hide()
                         }
                     }
                 });
