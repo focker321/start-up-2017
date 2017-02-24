@@ -104,6 +104,7 @@ def search(request):
         events = Event.objects(__raw__= { '$or': [{'title_event': {'$regex': paramQ, '$options' : 'i'}}, 
         {'city': {'$regex': paramQ, '$options' : 'i'}},
         {'country': {'$regex': paramQ, '$options' : 'i'}},
+        {'description': {'$regex': paramQ, '$options' : 'i'}},
         {'categories': {'$regex': paramQ, '$options' : 'i'}}]})
         paginator = Paginator(events, 10)
         try:
