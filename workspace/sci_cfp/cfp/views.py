@@ -100,11 +100,11 @@ def search(request):
     if request.method == 'GET':
 
         paramQ = request.GET.get('q', '')
-
+        
         events = Event.objects(__raw__= { '$or': [{'title_event': {'$regex': paramQ, '$options' : 'i'}}, 
-        {'location': {'$regex': paramQ, '$options' : 'i'}},
+        {'city': {'$regex': paramQ, '$options' : 'i'}},
+        {'country': {'$regex': paramQ, '$options' : 'i'}},
         {'categories': {'$regex': paramQ, '$options' : 'i'}}]})
-
         paginator = Paginator(events, 10)
         try:
             page_number = int(request.GET.get('page', '1'))
