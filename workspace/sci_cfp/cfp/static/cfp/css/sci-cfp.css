@@ -65,6 +65,18 @@
   color: #ffffff;
     text-decoration: none;
 }
+.block-title .title {
+    width: 94.6667%;
+    padding-right: 0;
+    padding-left: 0;
+    float: left;
+}
+.block-title .star {
+    width: 5.33333%;
+    padding-left: 0;
+    padding-right: 0;
+    float: left;
+}
 .featured-article .block-location a {
   font-family: 'Oswald', serif;
   text-shadow: 4px 4px 4px #aaa;
@@ -139,6 +151,10 @@
 
 .favorite {
   cursor: pointer;
+}
+.favorite span {
+    font-size: 28px;
+    color: #fff;
 }
 
 .modal-hide {
@@ -319,7 +335,7 @@
     padding-botton: 10px;
 }
 .event-header-title .reviews {
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 120px;
     padding: 0 15px;
