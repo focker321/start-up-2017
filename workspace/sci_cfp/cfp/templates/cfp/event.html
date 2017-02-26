@@ -17,7 +17,10 @@
     <meta name="twitter:description" content="{{ event.description|slice:'0:200' }}">
     <meta name="twitter:image" content="{{ 'http://'|add:request.get_host }}{{ event.image|replace_social_img }}">
 
+    <!-- Five Stars -->
     <script src="{% static 'cfp/js/starrr.js' %}"></script>
+
+
     {% endblock %}
 
     {% block content %}
@@ -98,6 +101,8 @@
                     <td>{{ event.city }}, {{ event.country }}</td>
                 </tr>
                 </table>
+                <hr>
+                <div id="map"></div>
                 </div>
             </div>
         </div>
@@ -329,4 +334,37 @@
             });
         });
     </script>
+    <script type="text/javascript">
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = '{{ event.city }}, {{event.country}}';
+        geocoder.geocode({'address': address}, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -34.397, lng: 150.644},
+            scrollwheel: false,
+            zoom: 10,
+            streetViewControl: false,
+            mapTypeControlOptions: {
+                mapTypeIds: []
+            }
+        });
+
+        var geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map);
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <!-- Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl1DxQRi3bpgF6DXxKTlvqXRBhdYelDM&callback=initMap" async defer></script>
     {% endblock %}

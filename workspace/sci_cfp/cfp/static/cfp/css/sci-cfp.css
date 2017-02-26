@@ -308,7 +308,7 @@
         border: 1px solid #ccc;
     }
 }
-.event-dates div {
+.event-dates>div {
     padding: 15px;
 }
 .event-dates table {
@@ -466,4 +466,11 @@ td .rating .reviews {
     border-right: 1px solid #616364;
     border-bottom: 1px solid #616364;
     border-radius: 0px 0px 5px 5px;
+}
+
+
+
+#map {
+    width: 100%;
+    height: 200px;
 }
