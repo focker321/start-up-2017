@@ -24,11 +24,17 @@
     {% endblock %}
 
     {% block content %}
-    <div id="{{ event.id }}" class="row event-header">
+    <!--div class="row" style="margin-top: 20px;">
+        <a class="btn btn-default btn-lg" href="#" onclick="window.history.back();" role="button"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+    </div-->
+    <div id="{{ event.id }}" class="row">
+        <div class="col-md-12">
+        <div class="row event-header">
         <div class="col-md-2 event-header-image"><img src="{{ event.image|replace_social_img }}"></div>
         <div class="col-md-5 event-header-title">
             <h4>{{ event.acronym }} : {{ event.title_event }}</h4>
             <p>{{ event.description|slice:":150" }} &nbsp;&nbsp;<a href="#event-body"><b>Read more +</b></a></p>
+            <p style="padding: 10px 0;">Website:&nbsp;<b><a href="{{ event.event_url }}">{{ event.event_url }}</a></b></p>
             <div class='rating'>
                 {% for i in "12345" %}
                 {% if forloop.counter <= num_stars %}
@@ -73,6 +79,18 @@
                     <div class="col-md-12 core-label">Core</div>
                 </div>
             </div>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 categories">
+                <div class="tags">
+                    <b>Categories:</b>
+                    {% for category in event.categories|split %}
+                        <a href="#" class="btn-info">{{ category }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
         </div>
     </div>
     <div id="event-body" class="row event-body">
