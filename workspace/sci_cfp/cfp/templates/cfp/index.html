@@ -47,18 +47,18 @@
     					<img src="{{ event.image }}" alt="" class="thumb">
     				</a>
     				<div class="block-title">
-                        <div class="col-md-11" style="width: 94.6667%; padding-right: 0;">
+                        <div class="col-md-11 title">
                             <a href="/cfp/event/{{ event.id }}">
       					<h5>{{ event.acronym }} - {{ event.title_event }}</h5>
       					<p class="by-author"><small>Deadline: {{ event.submission_deadline|date:"M. d, Y" }}</small></p>
                             </a>
                         </div>
-                        <div class="col-md-1" style="width: 5.33333%; padding-left: 0; padding-right: 0;">
+                        <div class="col-md-1 star">
                           <a class="favorite">
                               {% if event.id in favorites %}
-                              <span style="font-size: 28px; color: #fff;" class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
                               {% else %}
-                              <span style="font-size: 28px; color: #fff;" class="fa fa-star-o"></span>
+                              <span class="fa fa-star-o"></span>
                               {% endif %}
                           </a>
                         </div>

@@ -44,3 +44,8 @@ def pretty_date(time):
     if day_diff < 365:
         return str(day_diff / 30) + " months ago"
     return str(day_diff / 365) + " years ago"
+
+
+@register.filter
+def split(value):
+    return value.split(',')
