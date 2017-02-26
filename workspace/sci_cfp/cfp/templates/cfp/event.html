@@ -22,10 +22,10 @@
 
     {% block content %}
     <div id="{{ event.id }}" class="row event-header">
-        <div class="col-md-3 event-header-image"><img src="{{ event.image|replace_social_img }}"></div>
-        <div class="col-md-6 event-header-title">
+        <div class="col-md-2 event-header-image"><img src="{{ event.image|replace_social_img }}"></div>
+        <div class="col-md-5 event-header-title">
             <h4>{{ event.acronym }} : {{ event.title_event }}</h4>
-            <p></p>
+            <p>{{ event.description|slice:":150" }} &nbsp;&nbsp;<a href="#event-body"><b>Read more +</b></a></p>
             <div class='rating'>
                 {% for i in "12345" %}
                 {% if forloop.counter <= num_stars %}
@@ -50,7 +50,7 @@
                 </label>
             </div>
             {% else %}
-            <button id="follow" type="button" class="btn btn-default">Follow</button>
+            <button id="follow" type="button" class="btn btn-default btn-lg">Follow</button>
             <div class="checkbox" style="display: none;">
                 <label>
                     <input type="checkbox" checked> I would like to receive emails of the important dates from this event.
@@ -59,15 +59,20 @@
             {% endif %}
             <footer>FOLLOWERS: <b class="followers">{{ num_followers|intcomma }}</b></footer>
         </div>
-    </div>
-    <div class="row event-body">
-        <div class="col-md-8">
-            <div class="row event-description">
-                <div class="col-md-12">
-                    {{ event.description }}
+        <div class="col-md-2 event-header-ranking">
+            <div class="row">
+                <div class="col-md-12 ranking">
+                    <div class="col-md-12 qualis">B1</div>
+                    <div class="col-md-12 qualis-label">Qualis</div>
+                </div>
+                <div class="col-md-12 ranking">
+                    <div class="col-md-12 core">A*</div>
+                    <div class="col-md-12 core-label">Core</div>
                 </div>
             </div>
         </div>
+    </div>
+    <div id="event-body" class="row event-body">
         <div class="col-md-4">
             <div class="row event-dates">
                 <div class="col-md-12">
@@ -90,9 +95,16 @@
                 </tr>
                 <tr>
                     <td><b>Location</b>:&nbsp;</td>
-                    <td>{{ event.location }}</td>
+                    <td>{{ event.city }}, {{ event.country }}</td>
                 </tr>
                 </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row event-description">
+                <div class="col-md-12">
+                    {{ event.description }}
                 </div>
             </div>
         </div>
