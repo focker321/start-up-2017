@@ -1,7 +1,7 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+    <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,17 +49,17 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<!-- LocalHost -->
-<!--appId: "bfbbc643-7bca-49dd-ba6d-cd831fe7f3f2",
-subdomainName: 'localhost-sci-cfp',-->
-<!-- Production -->
-<!--appId: "0a0f5b6b-6cf3-4c11-9239-0a9b4bee8ded",
-subdomainName: 'localhost-sci-cfp',-->
+    <!-- LocalHost -->
+    <!--appId: "bfbbc643-7bca-49dd-ba6d-cd831fe7f3f2", subdomainName: 'localhost-sci-cfp',-->
+
+    <!-- Production -->
+    <!--appId: "0a0f5b6b-6cf3-4c11-9239-0a9b4bee8ded", subdomainName: 'localhost-sci-cfp',-->
+
     <!-- One Signal -->
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async='async'></script>
     <script>
-      var OneSignal = window.OneSignal || [];
-      OneSignal.push(["init", {
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(["init", {
         appId: "0a0f5b6b-6cf3-4c11-9239-0a9b4bee8ded",
         // appId: "bfbbc643-7bca-49dd-ba6d-cd831fe7f3f2",
         autoRegister: false, /* Set to true to automatically prompt visitors */
@@ -69,12 +69,12 @@ subdomainName: 'localhost-sci-cfp',-->
         subdomainName: Use the value you entered in step 1.4: http://imgur.com/a/f6hqN
         */
         httpPermissionRequest: {
-          enable: true
+            enable: true
         },
         notifyButton: {
             enable: true /* Set to false to hide */
         }
-      }]);
+    }]);
     </script>
     
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Oswald">
@@ -185,7 +185,7 @@ subdomainName: 'localhost-sci-cfp',-->
               <ul class="dropdown-menu">
                 <li><a href="/cfp/profile">My Profile</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/cfp/logout">Logout</a></li>
+                <li><a href="/cfp/logout?next={{ request.get_full_path }}">Logout</a></li>
               </ul>
             </li>
             {% endif %}
