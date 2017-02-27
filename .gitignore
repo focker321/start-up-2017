@@ -1,3 +1,4 @@
 *.pyc
 .idea/
+workspace/sci_cfp/crawler/ghostdriver.log
 workspace/sci_cfp/venv/
