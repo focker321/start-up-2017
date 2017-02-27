@@ -35,9 +35,9 @@
     <!--div class="row" style="margin-top: 20px;">
         <a class="btn btn-default btn-lg" href="#" onclick="window.history.back();" role="button"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
     </div-->
-    <div id="{{ event.id }}" class="row">
+    <div class="row">
         <div class="col-md-12">
-            <div class="row event-header">
+            <div id="{{ event.id }}" class="row event-header">
                 <div class="col-md-2 event-header-image"><img src="{{ event.image|replace_social_img }}"></div>
                 <div class="col-md-5 event-header-title">
                     <h4>{{ event.acronym }} : {{ event.title_event }}</h4>
