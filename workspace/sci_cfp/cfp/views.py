@@ -62,7 +62,11 @@ def login_user(request):
 
 
 def logout_user(request):
+    if request.method == 'GET':
+        next = request.GET.get('next', '')
     logout(request)
+    if next:
+        return HttpResponseRedirect(next)
     return HttpResponseRedirect('/')
 
 

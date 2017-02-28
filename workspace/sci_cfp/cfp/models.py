@@ -82,3 +82,12 @@ class Review(Document):
     meta = {
         'ordering': ['-date']
     }
+
+
+class Qualification(Document):
+    id = SequenceField(primary_key=True)
+    event_id = StringField(max_length=200, default="")
+    rank = StringField(max_length=20, default="")
+    source = StringField(max_length=50, default="")
+    acronym = StringField(max_length=200)
+    title = StringField(max_length=1000, default="")

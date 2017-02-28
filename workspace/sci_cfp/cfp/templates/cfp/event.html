@@ -23,63 +23,71 @@
 
     {% endblock %}
 
+    {% block banner %}
+    <!--div class="box-cover" data-auto="app-basic-info" style="position: absolute;margin-bottom: 3.1669865643%;width: 100%;height: 280px;margin: 0;padding: 0;border: 0;font-size: 100%;/*! font: inherit; */vertical-align: baseline;">
+        <div class="box-cover-image" style="position: relative;overflow: hidden;padding-bottom: 260px;height: 280px;background: #a5abab;">
+            <canvas class="box-cover-canvas js-app-cover" data-auto="app-canvas-cover" data-background-url="//cdn.appcrawlr.com/imageService/aHR0cDovL2lzNC5tenN0YXRpYy5jb20vaW1hZ2UvdGh1bWIvUHVycGxlNzEvdjQvMjIvNWIvMmIvMjI1YjJiNjktNzVmMi0zZTU2LTFiZWItOWIxZDc0ZWFmZmZjL3NvdXJjZS8xMDB4MTAwYmIuanBn?w=150&amp;h=150" style="/*! position: relative; *//*! overflow: hidden; *//*! padding-bottom: 260px; *//*! height: 0; *//*! background: #a5abab; */"></canvas>
+        </div>
+    </div-->
+    {% endblock %}
+
     {% block content %}
     <!--div class="row" style="margin-top: 20px;">
         <a class="btn btn-default btn-lg" href="#" onclick="window.history.back();" role="button"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
     </div-->
-    <div id="{{ event.id }}" class="row">
+    <div class="row">
         <div class="col-md-12">
-        <div class="row event-header">
-        <div class="col-md-2 event-header-image"><img src="{{ event.image|replace_social_img }}"></div>
-        <div class="col-md-5 event-header-title">
-            <h4>{{ event.acronym }} : {{ event.title_event }}</h4>
-            <p>{{ event.description|slice:":150" }} &nbsp;&nbsp;<a href="#event-body"><b>Read more +</b></a></p>
-            <p style="padding: 10px 0;">Website:&nbsp;<b><a href="{{ event.event_url }}">{{ event.event_url }}</a></b></p>
-            <div class='rating'>
-                {% for i in "12345" %}
-                {% if forloop.counter <= num_stars %}
-                <i class="fa fa-star"></i>
+            <div id="{{ event.id }}" class="row event-header">
+                <div class="col-md-2 event-header-image"><img src="{{ event.image|replace_social_img }}"></div>
+                <div class="col-md-5 event-header-title">
+                    <h4>{{ event.acronym }} : {{ event.title_event }}</h4>
+                    <p>{{ event.description|slice:":150" }} &nbsp;&nbsp;<a href="#event-body"><b>Read more +</b></a></p>
+                    <p style="padding: 10px 0;">Website:&nbsp;<b><a href="{{ event.event_url }}">{{ event.event_url }}</a></b></p>
+                    <div class='rating'>
+                        {% for i in "12345" %}
+                        {% if forloop.counter <= num_stars %}
+                        <i class="fa fa-star"></i>
+                        {% else %}
+                        <i class="fa fa-star-o"></i>
+                        {% endif %}
+                        {% endfor %}
+                        <a href="#reviews-header" class="reviews">{{ num_reviews|intcomma }} Reviews</a>
+                    </div>
+                </div>
+            <div class="col-md-3 event-header-buttons">
+                {% if favorite %}
+                <button id="follow" type="button" class="btn btn-info active">Following</button>
+                <div class="checkbox">
+                    <label>
+                        {% if favorite.notify == 1 %}
+                        <input type="checkbox" checked> I would like to receive emails of the important dates from this event.
+                        {% else %}
+                        <input type="checkbox"> I would like to receive emails of the important dates from this event.
+                        {% endif %}
+                    </label>
+                </div>
                 {% else %}
-                <i class="fa fa-star-o"></i>
+                <button id="follow" type="button" class="btn btn-default btn-lg">Follow</button>
+                <div class="checkbox" style="display: none;">
+                    <label>
+                        <input type="checkbox" checked> I would like to receive emails of the important dates from this event.
+                    </label>
+                </div>
                 {% endif %}
-                {% endfor %}
-                <a href="#reviews-header" class="reviews">{{ num_reviews|intcomma }} Reviews</a>
+                <footer>FOLLOWERS: <b class="followers">{{ num_followers|intcomma }}</b></footer>
             </div>
-        </div>
-        <div class="col-md-3 event-header-buttons">
-            {% if favorite %}
-            <button id="follow" type="button" class="btn btn-info active">Following</button>
-            <div class="checkbox">
-                <label>
-                    {% if favorite.notify == 1 %}
-                    <input type="checkbox" checked> I would like to receive emails of the important dates from this event.
-                    {% else %}
-                    <input type="checkbox"> I would like to receive emails of the important dates from this event.
-                    {% endif %}
-                </label>
-            </div>
-            {% else %}
-            <button id="follow" type="button" class="btn btn-default btn-lg">Follow</button>
-            <div class="checkbox" style="display: none;">
-                <label>
-                    <input type="checkbox" checked> I would like to receive emails of the important dates from this event.
-                </label>
-            </div>
-            {% endif %}
-            <footer>FOLLOWERS: <b class="followers">{{ num_followers|intcomma }}</b></footer>
-        </div>
-        <div class="col-md-2 event-header-ranking">
-            <div class="row">
-                <div class="col-md-12 ranking">
-                    <div class="col-md-12 qualis">B1</div>
-                    <div class="col-md-12 qualis-label">Qualis</div>
-                </div>
-                <div class="col-md-12 ranking">
-                    <div class="col-md-12 core">A*</div>
-                    <div class="col-md-12 core-label">Core</div>
+            <div class="col-md-2 event-header-ranking">
+                <div class="row">
+                    <div class="col-md-12 ranking">
+                        <div class="col-md-12 qualis">B1</div>
+                        <div class="col-md-12 qualis-label">Qualis</div>
+                    </div>
+                    <div class="col-md-12 ranking">
+                        <div class="col-md-12 core">A*</div>
+                        <div class="col-md-12 core-label">Core</div>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
         <div class="row">
             <div class="col-md-12 categories">
@@ -132,9 +140,9 @@
             </div>
         </div>
     </div>
-    <h4 id="reviews-header"><b>Reviews</b></h4>
     <div class="row event-reviews">
         <div class="col-md-8">
+            <h4 id="reviews-header"><b>Reviews</b></h4>
             <table class="table">
                 <theader>
                     <tr>
@@ -183,6 +191,21 @@
                 {% if has_next %}
                 <tfoot><tr><td align="right"><a href="#" id="seemore" class="seemore">See more</a></td></tr></tfoot>
                 {% endif %}
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h4>Similar Events:</h4>
+            <table class="table">
+                <theader>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </theader>
+                <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
@@ -381,7 +404,6 @@
         var geocoder = new google.maps.Geocoder();
         geocodeAddress(geocoder, map);
     }
-    google.maps.event.addDomListener(window, 'load', initialize);
     </script>
     <!-- Google Maps -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwl1DxQRi3bpgF6DXxKTlvqXRBhdYelDM&callback=initMap" async defer></script>
