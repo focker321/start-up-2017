@@ -9,7 +9,6 @@ from crawler import Crawler
 from bs4 import BeautifulSoup
 import re
 import urllib2
-import datetime
 
 
 class CrawlerCore(Crawler):

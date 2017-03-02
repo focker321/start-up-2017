@@ -91,3 +91,10 @@ class Qualification(Document):
     source = StringField(max_length=50, default="")
     acronym = StringField(max_length=200)
     title = StringField(max_length=1000, default="")
+
+
+class ImageEvent(Document):
+    id = StringField(max_length=200, unique=True, primary_key=True)
+    city_name = StringField(max_length=200)
+    country_name = StringField(max_length=200)
+    url_image = StringField(max_length=300)
