@@ -1,0 +1,14 @@
+{
+  "name": "node-scraping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "request": "latest",
+    "cheerio": "latest",
+    "sync-request": "latest",
+    "async": "latest"
+  }
+}
